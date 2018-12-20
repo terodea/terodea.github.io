@@ -1,48 +1,66 @@
 ---
 layout: post
-title:  "get Month Name [CF]"
+title:  "MongoDB Setup In LINUX Based OS"
 date:   2016-06-11 03:43:45 +0700
-categories: [python, codefights]
+categories: [nosql, codefights]
 ---
 
-Map the given integer to a month.
+**STEP 1:-**
+Create `db-path` according to MongoDB specification
 
-**Example:**
+```shell       
+sudo mkdir -p /data/db
+```
+ 
+**STEP 2:-** 
+Give `RWX` Permission
 
-* For `mo = 1`, the output should be `getMonthName(mo) = "Jan"`,
-* For `mo = 0`, the output should be `getMonthName(mo) = "invalid month"`.
-
-**Input/Output**
-
-* [time limit] 4000ms (py)
-* [input] integer mo (A non-negative integer).
-* **Constraints:** `0 ≤ mo ≤ 15`.
-* **[output] string**
-
-A `3`-letter abbreviation of month number `mo` or `"invalid month"` if the month doesn't exist.
-
-Here are abbreviations of all months:
-
-**My Solution:**
-
-```python
-def getMonthName(mo):
-    months = {
-        1: "Jan", 2: "Feb", 3: "Mar", 4:"Apr", 
-        5: "May", 6: "Jun", 7: "Jul", 8:"Aug", 
-        9: "Sep", 10: "Oct", 11: "Nov", 12: "Dec"
-    }
-    if mo in months.keys():
-        return months.get(mo)
-    return "invalid month"
+```shell      
+sudo chmod -R 777 /data/db
 ```
 
-**Result Tests**:
+**STEP 3:-** 
+Download MongoDB from the official site; and Extract
 
-```python
->>> getMonthName(1)
-"Jan"
->>> getMonthName(0)
-"invalid month"
->>>
+```shell
+cd Downloads
+tar xvzf mongodb-linux-x86_64-ubuntu1604-4.0.4.tgz
 ```
+
+**STEP 4:-** 
+Make Installation Path
+
+```shell
+sudo mkdir -p /usr/local/mongoDB
+```
+
+**STEP 5:-** 
+Move Extracted Files to Setup Location
+- `CD` to `extracted folder of MongoDB`
+```shell
+sudo mv /mongodb-linux-x86_64-ubuntu1604-4.0.4/* /usr/local/mongoDB
+```
+**STEP 6:-** 
+ADD mongoDB enivronment variable to `".bashrc"`
+```
+sudo gedit ~/.bashrc
+```
+- `Append` at the end of `".bashrc"`
+```
+export MongoDB_HOME=/usr/local/mongo
+export PATH=$PATH:/usr/local/mongo/bin
+```
+
+
+**STEP 7:-** 
+START MongoDB server
+* `Start` The MongoDB `Server`
+    ```
+        mongod
+    ```
+* `Start` MongoDB `Shell`
+    ```
+        mongo
+    ```
+
+You should see mongo CLI running by now.If not you need to troubleshoot and check with the errors.
