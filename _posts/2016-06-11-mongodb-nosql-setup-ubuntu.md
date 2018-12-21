@@ -62,3 +62,6 @@ START MongoDB server
     ```
 
 You should see mongo CLI running by now.If not you need to troubleshoot and check with the errors.
+
+
+So, finally, we have seen how to install MongoDB on Ubuntu. We will learn MongoDB Programming in our further MongoDB tutorials. Feel free to ask your queries in the comment section.
