@@ -2,7 +2,7 @@
 layout: post
 title:  "MongoDB Setup In LINUX Based OS"
 date:   2016-06-11 03:43:45 +0700
-categories: [nosql, codefights]
+categories: [nosql, setup]
 ---
 
 **STEP 1:-** <br>
