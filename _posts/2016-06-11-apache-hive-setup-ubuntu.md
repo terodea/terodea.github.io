@@ -22,11 +22,13 @@ export CLASSPATH=$CLASSPATH:/usr/local/hadoop/lib/*:.
 export CLASSPATH=$CLASSPATH:/usr/local/apache-hive-2.1.0-bin/lib/*:.
 ```
 * Activate the new setting for Hive
+
 ```shell
 source ~/.bashrc
 ```
 ## Step 3 --> Creating HIVE warehouse directory
 * The directory warehouse is the location to store the table or data related to hive, and the temporary directory tmp is the temporary location to store the intermediate result of processing.
+
 ```shell
 hdfs dfs -mkdir /user/hive/warehouse
 hdfs dfs -chmod g+w /tmp
@@ -36,6 +38,7 @@ hdfs dfs -chmod g+w /user/hive/warehouse
 To configure Hive with Hadoop, we need to edit the hive-env.sh file, which is placed in the $HIVE_HOME/conf directory. The following commands redirect to Hive conf folder and copy the template file:
 
 ## STEP 4 --> COPY AND RENAME "hive-env.sh.template" ad "hive-env.sh"
+
 ```shell
 $ cd $HIVE_HOME/conf
 $ sudo cp hive-env.sh.template hive-env.sh
@@ -73,6 +76,7 @@ $ cd $HIVE_HOME/conf
 $ sudo cp hive-default.xml.template hive-site.xml
 ```
 * Make sure the following lines are between the `<configuration>` and `</configuration>` tags of `hive-site.xml`:
+
 ```xml
 <property>
     <name>javax.jdo.option.ConnectionURL</name>
@@ -85,6 +89,7 @@ $ sudo cp hive-default.xml.template hive-site.xml
   </property>
 ```
 ## Step 9 --> Configuring `jpox.properties` file.
+
 ```
 javax.jdo.PersistenceManagerFactoryClass =
 org.jpox.PersistenceManagerFactoryImpl
@@ -106,12 +111,14 @@ javax.jdo.option.ConnectionPassword = mine
 **NOTE** : Give full permissions to hive folder.
 
 ## Step 10 --> Metastore schema initialization
+
 ```shell
 $ cd $HIVE_HOME/bin
 $ schematool -dbType derby -initSchema
 ```
 ## Step 11 --> Let's start Hive
 Now that we fixed the errors, let's start Hive CLI:
+
 ```shell
 $ hive
 ```
@@ -121,6 +128,7 @@ We can exit from that Hive shell by using `exit` command.
 
 1. Exception in thread "main" java.lang.RuntimeException: Couldn't create directory ${system:java.io.tmpdir}/${hive.session.id}_resources
 * Fix #1: edit hive-site.xml:
+
 ```xml
 <property>
     <name>hive.downloaded.resources.dir</name>
@@ -133,6 +141,7 @@ We can exit from that Hive shell by using `exit` command.
 ```
 2. java.net.URISyntaxException: Relative path in absolute URI: ${system:java.io.tmpdir%7D/$%7Bsystem:user.name%7D <br>
 Replace ${system:java.io.tmpdir}/${system:user.name} by /tmp/mydir in hive-site.xml 
+
 ```xml
 <property>
     <name>hive.exec.local.scratchdir</name>
