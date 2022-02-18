@@ -17,9 +17,9 @@ collections:
 
 social:
     - icon: fa-facebook
-      link: "#"
+      link: "https://www.facebook.com/terodeakshay"
     - icon: fa-twitter
-      link: "https://twitter.com/agusmakmun6"
+      link: "https://twitter.com/terode_akshay"
     - icon: fa-linkedin
       link: "https://www.linkedin.com/in/akshay-terode"
     - icon: fa-stack-exchange
@@ -28,7 +28,7 @@ social:
       link: "https://github.com/terodea"
 
 share:
-  twitter_username: agusmakmun6
+  twitter_username: terode_akshay
   fb_appid: 1749788565247320
 
 urls:
