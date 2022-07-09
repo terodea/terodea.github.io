@@ -10,10 +10,10 @@ A Slowly Changing Dimension (SCD) is a dimension that stores and manages both cu
 
 
 ## Type 1 SCDs - Overwriting/ Upsert(If new_record THEN Insert ELSE UPDATE)
-In a Type 1 SCD the new data overwrites the existing data. Thus the existing data is lost as it is not stored anywhere else. This is the default type of dimension you create. You do not need to specify any additional information to create a Type 1 SCD. </br>
+In a Type 1 SCD the new data overwrites the existing data. Thus the existing data is lost as it is not stored anywhere else. This is the default type of dimension you create. You do not need to specify any additional information to create a Type 1 SCD.
 
-## Implementing SCD Type1 is a 4 step process: </br>
-Initial step is an assumption that initial data alrady exists in table. </br>
+## Implementing SCD Type1 is a 4 step process:
+Initial step is an assumption that initial data alrady exists in table.
 ```SQL
 DROP DATABASE IF EXISTS my_db cascade;
 CREATE DATABASE my_db;
@@ -28,7 +28,7 @@ CREATE EXTERNAL TABLE contacts_initial_stage(
     ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' STORED AS TEXTFILE
     LOCATION '/tmp/merge_data/initial_stage';
 ```
-1. Create the target sink **managed** table in Hive
+- **Step 1:** Create the target sink **managed** table in Hive
 ```SQL
 -- Create the Hive managed table for our contacts.
 CREATE TABLE contacts_target(
@@ -39,13 +39,13 @@ CREATE TABLE contacts_target(
     )
     CLUSTERED BY (id) INTO 2 BUCKETS STORED AS ORC TBLPROPERTIES("transactional"="true");
 ```
-2. Insert initial data load into the new table
+- **Step 2:** Insert initial data load into the new table
 
 ```SQL
 -- Copy the initial load into the managed table.
-INSERT INTO contacts_target SELECT * FROM contacts_initial_stage;
+INSERT INTO contacts_target SELECT * FROM contacts_initial_stage; 
 ```
-3. Create new **external** table pointing to new data load.
+- **Step 3:** Create new **external** table pointing to new data load.
 ```SQL
 -- Create an external table pointing to our refreshed data load (1100 records)
 CREATE EXTERNAL TABLE contacts_update_stage(
@@ -57,7 +57,7 @@ CREATE EXTERNAL TABLE contacts_update_stage(
     ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' STORED AS TEXTFILE
     LOCATION '/tmp/merge_data/update_stage';
 ```
-4. Write the final Upsert(Insert or Update) Query.
+- **Step 4:** Write the final Upsert(Insert or Update) Query.
 ```SQL
 -- Perform the Type 1 Update (full table upsert)
 MERGE INTO
@@ -72,7 +72,7 @@ WHEN NOT MATCHED THEN
   INSERT VALUES (stage.id, stage.name, stage.email, stage.state);
 ```
 
-5. Validate your SCD1 implementation
+- **Step 5:** Validate your SCD1 implementation
 ```SQL
 -- Confirm we now have 1100 records.
 SELECT COUNT(1) FROM contacts_target;
