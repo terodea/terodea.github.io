@@ -13,7 +13,7 @@ A Slowly Changing Dimension (SCD) is a dimension that stores and manages both cu
 In a Type 1 SCD the new data overwrites the existing data. Thus the existing data is lost as it is not stored anywhere else. This is the default type of dimension you create. You do not need to specify any additional information to create a Type 1 SCD. </br>
 
 ## Implementing SCD Type1 is a 4 step process: </br>
-0. Initial step is an assumption that initial data alrady exists in table.
+Initial step is an assumption that initial data alrady exists in table. </br>
 ```SQL
 DROP DATABASE IF EXISTS my_db cascade;
 CREATE DATABASE my_db;
@@ -45,7 +45,6 @@ CREATE TABLE contacts_target(
 -- Copy the initial load into the managed table.
 INSERT INTO contacts_target SELECT * FROM contacts_initial_stage;
 ```
-
 3. Create new **external** table pointing to new data load.
 ```SQL
 -- Create an external table pointing to our refreshed data load (1100 records)
@@ -58,7 +57,6 @@ CREATE EXTERNAL TABLE contacts_update_stage(
     ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' STORED AS TEXTFILE
     LOCATION '/tmp/merge_data/update_stage';
 ```
-
 4. Write the final Upsert(Insert or Update) Query.
 ```SQL
 -- Perform the Type 1 Update (full table upsert)
@@ -85,6 +83,7 @@ SELECT COUNT(1) FROM contacts_target;
 2. Data Volumne is less as compared to other SCD's.
 3. Maintance is less in comparision to other SCD's.
 4. Simple implementation.
+
 #### Cons:
 1. Historical Data is lossed as history is not maintaned rather it is updated. However one can preserve historical data using backup data processes.
 2. Not suitable for transactions.
